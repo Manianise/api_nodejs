@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "marked": "^13.0.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "name": "cbcapi",
+  "description": "Cabinet la Clef API",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manianise/cbtLaClefAPI.git"
+  },
+  "keywords": [
+    "api",
+    "cabinet_la_clef"
+  ],
+  "author": "Pierre-Alexandre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manianise/cbtLaClefAPI/issues"
+  },
+  "homepage": "https://github.com/Manianise/cbtLaClefAPI#readme"
+}
