@@ -14,7 +14,8 @@
     "sequelize": "^6.37.3"
   },
   "scripts": {
-    "start": "nodemon -r dotenv/config app.js"
+    "start": "nodemon -r dotenv/config app.js",
+    "test": "npm -v"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.2"
