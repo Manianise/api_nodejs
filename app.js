@@ -1,56 +1,38 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
-const morgan = require('morgan')
+const port = 3000
 const bodyParser = require('body-parser')
-const fs = require('fs');
-const path = require('path');
-const marked = require('marked');
+const rateLimit = require('express-rate-limit');
 
-const productRoutes = require('./api/routes/team')
-const clientsRoutes = require('./api/routes/clients')
+const membersRoute = require('./routes/members')
+const usersRoute = require('./routes/users')
 
-app.use(morgan('dev'))
+// Define rate limiting configuration
+const limiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // an hour
+  max: 200, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+});
 
-// Make json easy to read
-app.use(bodyParser.urlencoded({extended:false}))
+const corsOptions = {
+    origin: 'https://cabinetlaclef.com', // Replace with your allowed origin(s)
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    credentials: true // Allow credentials
+};
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
+app.use(cors(corsOptions))
+
+// Documentation static html page
+app.use(express.static(__dirname + '/src'))
+
 app.use(bodyParser.json())
 
-// Routes handling requests
-app.use('/team', productRoutes)
-app.use('/clients', clientsRoutes)
-
-// Read the README.md file
-const readmePath = path.join(__dirname, 'README.md');
-
-// Set Homepage
-app.get('/', (req, res) => {
-    // Serve the README.md file for the root URL
-    fs.readFile(readmePath, 'utf8', (err, data) => {
-      if (err) {
-        res.status(500).send('Internal Server Error');
-        return;
-      }
-      const html = marked.parse(data)
-      res.send(html);
-    });
-  });
+app.use("/members", membersRoute)
+app.use("/user", usersRoute)
 
 
-app.use((req,res,next) =>{
-    const error = new Error('NotFound')
-    error.status = 404
-    next(error)
-})
-
-app.use((error,res,next) =>{
-    res.status(error.status || 500)
-    res.json({
-        error: {
-            message: error.message
-        }
-    })
-})
-
-
-module.exports = app
-
+app.listen(port, () => {console.log(`listening on port : ${port}`)})

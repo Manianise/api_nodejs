@@ -1,1 +1,10 @@
 node_modules/
+package-lock.json
+unique_commands.txt
+update.sh
+source_files
+migration
+models
+config
+.env
+passenger.log
