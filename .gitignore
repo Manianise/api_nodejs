@@ -2,7 +2,7 @@ node_modules/
 package-lock.json
 unique_commands.txt
 update.sh
-source_files
+source_files/
 migration
 models
 config
