@@ -35,4 +35,4 @@ app.use("/members", membersRoute)
 app.use("/user", usersRoute)
 
 
-app.listen(port, () => {console.log(`listening on port : ${port}`)})
+app.listen(port, () => {console.log(`listening on port : ${port} at http://localhost:3000`)})
