@@ -5,7 +5,7 @@ const models = require('../models')
  * 
  * @param {*} req 
  * @param {*} res
- * @callback models will register Mermber in API
+ * @callback models will register Member in API
  */
 const save = (req, res) => {
 	models.Member.findOne({where:{email:req.body.email}}).then(result => {

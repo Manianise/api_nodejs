@@ -3,8 +3,8 @@ package-lock.json
 unique_commands.txt
 update.sh
 source_files/
-migration
-models
-config
+migration/
+config/
+models/
 .env
 passenger.log

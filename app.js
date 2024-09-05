@@ -1,10 +1,13 @@
+// Main requirements
 const express = require('express')
 const cors = require('cors')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser')
 const rateLimit = require('express-rate-limit');
+require('dotenv').config();
 
+// Routing
 const membersRoute = require('./routes/members')
 const usersRoute = require('./routes/users')
 
@@ -16,7 +19,7 @@ const limiter = rateLimit({
 });
 
 const corsOptions = {
-    origin: 'https://cabinetlaclef.com', // Replace with your allowed origin(s)
+    origin: `${process.env.ALLOW_ORIGIN_URL}`, // Replace with your allowed origin(s)
     methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true // Allow credentials
