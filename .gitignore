@@ -5,6 +5,5 @@ update.sh
 source_files/
 migration/
 config/
-models/
 .env
 passenger.log
