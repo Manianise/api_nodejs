@@ -16,5 +16,9 @@ COPY . .
 # Expose the port your app runs on
 EXPOSE 3000
 
+# Command to migrate to a database
+RUN node config.js \
+sequelize db:migrate
+
 # Command to run the application
-CMD ["nodemon", "-r", "dotenv/config", "app.js"]
+CMD ["npm", "run", "start"]

@@ -3,7 +3,7 @@ package-lock.json
 unique_commands.txt
 update.sh
 source_files/
-migration/
 config/
 .env
 passenger.log
+.dockerignore

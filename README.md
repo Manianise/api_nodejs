@@ -1,23 +1,37 @@
 ## DOCUMENTATION ##
 
-### Implement simple token based and login NodeJS API ###
+***
+
+### Implement simple token based NodeJS API with login and signup route + POST, GET, DELETE and PATCH requests ###
 
 ![NodeJS](https://img.shields.io/badge/NodeJS-100%25-5FA04E?logo=nodedotjs)
 ![Sequelize](https://img.shields.io/badge/Sequelize-MySQL-blue?logo=sequelize)
+
+***
 
 #### Prerequisites
 
 - Have a node environment installed
 - Have a MySQL database available
 
-#### Setup MySQL
+#### A bit of configuration
 
-To set up the database, run the following commands :
+- Write a .env file and write the corresponding environment variables located in the config files <strong>(leave empty for testing)</strong> 
+
+>
+> .env file must have a JWT_KEY and a __DEV__ variable
+>
+
+- Run the following command to initiate config directory :
 
 ```
-sequelize init --force
-sequelize model:generate --name Member --attributes userId:integer,name:string,lastName:string,phone:string,email:string,url:string
-sequelize model:generate --name User --attributes name:string,email:string,password:string
+node config.js
+```
+#### Setup MySQL
+
+- To set up the database, run the following command :
+
+```
 sequelize db:migrate
 
 ```
@@ -32,5 +46,21 @@ For more information about how sequelize works, you can find their documentation
 npm run start
 ```
 
+### Using Docker
 
+Run the regular commands :
+
+```
+docker build . -t <NAME_OF_LOCAL_IMG> 
+```
+
+Or:
+
+```
+docker pull mechameleon/api_nodejs:latest
+```
+
+```
+docker run --name <CONTAINER> --network <CUSTOM_NETWORK> -dp 3000:3000 mechameleon/api_nodejs:latest
+```
 
