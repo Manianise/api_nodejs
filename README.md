@@ -1,11 +1,9 @@
 ## DOCUMENTATION ##
 
-***
-
-### Implement simple token based NodeJS API with login and signup route + POST, GET, DELETE and PATCH requests ###
-
 ![NodeJS](https://img.shields.io/badge/NodeJS-100%25-5FA04E?logo=nodedotjs)
 ![Sequelize](https://img.shields.io/badge/Sequelize-MySQL-blue?logo=sequelize)
+
+#### Implement simple token based NodeJS API with login and signup route + POST, GET, DELETE and PATCH requests
 
 ***
 
