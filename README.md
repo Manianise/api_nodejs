@@ -31,7 +31,6 @@ node config.js
 
 ```
 sequelize db:migrate
-
 ```
 
 > Configuration and credentials from your database can be found in the config.json file. 
