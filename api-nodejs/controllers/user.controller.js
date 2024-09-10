@@ -5,9 +5,9 @@ const Validator = require('fastest-validator')
 require('dotenv').config();
  
 
-const signUp = (req, res) => {
+const signUp = async (req, res) => {
 
-        models.User.findOne({where:{email:req.body.email}}).then(result => {
+        await models.User.findOne({where:{email:req.body.email}}).then(result => {
 
                 if(result) res.status(409).send('email already exists')
 
@@ -45,8 +45,8 @@ const signUp = (req, res) => {
 }
 
 
-const login = (req, res) => {
-        models.User.findOne({where:{email:req.body.email,name:req.body.name}}).then(user => {
+const login = async (req, res) => {
+        await models.User.findOne({where:{email:req.body.email,name:req.body.name}}).then(user => {
                 console.log(user);
                 if(user === null)  res.status(401).send(`ERROR User : Invalid credentials`)
                 else {
@@ -63,7 +63,7 @@ const login = (req, res) => {
                         })
                                 
                 }
-        }).catch(err => res.status(500).send(`ERROR creating User : ${err}`))
+        }).catch(err => res.status(500).send(`ERROR logging User : ${err}`))
 }        
 
 module.exports = {

@@ -59,6 +59,6 @@ docker pull mechameleon/api_nodejs:latest
 ```
 
 ```
-docker run --name <CONTAINER> --network <CUSTOM_NETWORK> -dp 3000:3000 mechameleon/api_nodejs:latest
+docker run --env-file <ENV_FILE_IN_DIR> --name <CONTAINER> --network <CUSTOM_NETWORK> -dp 3000:3000 mechameleon/api_nodejs:latest
 ```
 

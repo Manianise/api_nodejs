@@ -9,7 +9,7 @@ require('dotenv').config();
 
 // Routing
 const membersRoute = require('./routes/members')
-const usersRoute = require('./routes/users')
+const usersRoute = require('./routes/user')
 
 // Define rate limiting configuration
 const limiter = rateLimit({
@@ -19,7 +19,7 @@ const limiter = rateLimit({
 });
 
 const corsOptions = {
-    origin: `${process.env.ALLOW_ORIGIN_URL}`, // Replace with your allowed origin(s)
+    origin: `${process.env.ALLOW_ORIGIN_URL}, 127.0.0.1`, // Replace with your allowed origin(s)
     methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true // Allow credentials
