@@ -2,8 +2,7 @@ node_modules/
 package-lock.json
 unique_commands.txt
 update.sh
-source_files/
-config/
+clc-api/config/
 .env
 passenger.log
 .dockerignore
