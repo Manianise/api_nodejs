@@ -45,14 +45,6 @@ npm run start
 
 ### Using Docker
 
-Run the regular commands :
-
-```
-docker build . -t <NAME_OF_LOCAL_IMG> 
-```
-
-Or:
-
 ```
 docker pull mechameleon/api_nodejs:latest
 ```
@@ -60,4 +52,17 @@ docker pull mechameleon/api_nodejs:latest
 ```
 docker run --env-file <ENV_FILE_IN_DIR> --name <CONTAINER> --network <CUSTOM_NETWORK> -dp 3000:3000 mechameleon/api_nodejs:latest
 ```
+***
+### Possible Env variables :
+
+> Default credentials are root | null | default_db | 127.0.0.1
+
+MYSQL_DEV_USER | MYSQL_DEV_PASSWORD | MYSQL_DEV_DB | MYSQL_DEV_HOST
+:---------------:|:---------------:|:---------------:|:---------------:|
+***
+MYSQL_TEST_USER | MYSQL_TEST_PASSWORD | MYSQL_TEST_DB | MYSQL_TEST_HOST
+:---------------:|:---------------:|:---------------:|:---------------:|
+***
+MYSQL_PROD_HOST | MYSQL_PROD_PASSWORD | MYSQL_PROD_DB | MYSQL_PROD_HOST
+:---------------:|:---------------:|:---------------:|:---------------:|
 

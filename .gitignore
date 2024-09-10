@@ -3,6 +3,5 @@ package-lock.json
 unique_commands.txt
 update.sh
 config/
-.env
 passenger.log
 .dockerignore
