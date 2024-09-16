@@ -10,7 +10,7 @@
 #### Prerequisites
 
 - Have a node environment installed
-- Have a MySQL database available
+- Have a MariaDB database available
 
 #### A bit of configuration
 
@@ -44,6 +44,8 @@ npm run start
 ```
 
 ### Using Docker
+
+### You can have a test environment with MySQL installed directly [here](https://github.com/Manianise/api_nodejs_mysql)
 
 ```
 docker pull mechameleon/api_nodejs:latest

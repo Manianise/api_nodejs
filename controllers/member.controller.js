@@ -1,49 +1,47 @@
-const Validator = require('fastest-validator')
-const models = require('../models')
+import Validator from 'fastest-validator'
+import Member from '../models/Member.js'
+
 
 /**
  * 
  * @param {*} req 
  * @param {*} res
- * @callback models will register Member in API
+ * @function save will register Member in API
  */
-const save = (req, res) => {
-	models.Member.findOne({where:{email:req.body.email}}).then(result => {
-			if(result) res.status(409).json({message:"Member already exists", error: 'Member already exists'})
-			else {
-				const member = {
-						name: req.body.name,
-						lastName: req.body.lastName,
-						phone: req.body.phone,
-						email:  req.body.email,
-						url: req.body.url
-				}
+export const save = (req, res) => {
+	Member.findOne({where:{email:req.body.email}}).then(result => {
+		const member = {
+				name: req.body.name,
+				lastName: req.body.lastName,
+				phone: req.body.phone,
+				email:  req.body.email,
+				url: req.body.url
+		}
 
-				const schema = {
-						name: {type:"string", optional: false, max:"30"},
-						lastName: {type:"string", optional: false, max:"30"},
-						phone: {type:"string", optional: false, max:"30"},
-						email:  {type:"string", optional: false, max:"100"},
-						url: {type:"string", optional: true}
-				}
+		const schema = {
+				name: {type:"string", optional: false, max:"30"},
+				lastName: {type:"string", optional: false, max:"30"},
+				phone: {type:"string", optional: false, max:"30"},
+				email:  {type:"string", optional: false, max:"100"},
+				url: {type:"string", optional: true}
+		}
 
-				const v = new Validator()
-				const validationRes = v.validate(member, schema)
-				if (validationRes !== true) {return res.status(400).json({message:'Validation failed', error: 'Validation failure'})}
-				else {
-						models.Member.create(member).then(result => {
-								res.status(201).json({
-										message:'Un membre a été ajouté avec succès',
-										member: result
-								})
-						}).catch(error => {
-								res.status(500).json({
-										message:'Something went wrong',
-										error: error
-								})
+		const v = new Validator()
+		const validationRes = v.validate(member, schema)
+		if (validationRes !== true) {return res.status(400).json({message:'Validation failed', error: 'Validation failure'})}
+		else {
+				Member.create(member).then(result => {
+						res.status(201).json({
+								message:'Un membre a été ajouté avec succès',
+								member: result
 						})
-				}
-			}
+				}).catch(error => {
+						res.status(500).json({
+								message:'Something went wrong',
+								error: error
+						})
+				})
+		}
 	})
 }
 
@@ -53,9 +51,9 @@ const save = (req, res) => {
  * @param {*} res 
  * @returns a single Member
  */
-const show = (req,res) => {
+export const show = (req,res) => {
 	const id = req.params.id
-	models.Member.findByPk(id).then(result => {
+	Member.findByPk(id).then(result => {
 		if(result) res.status(200).json(result)
 		else res.sendStatus(404)
 	}).catch(error => {
@@ -72,9 +70,9 @@ const show = (req,res) => {
  * @param {*} res
  * @returns All the members of the team with creds
  */
-const showAll = (req,res) => {
+export const showAll = (req,res) => {
 	const id = req.params.id
-	models.Member.findAll().then(result => {
+	Member.findAll().then(result => {
 		res.status(200).json(result)
 	}).catch(error => {
 		res.status(500).json({
@@ -91,9 +89,9 @@ const showAll = (req,res) => {
  * @param {*} res
  * @returns All the members of the team, but only by ID and last name
  */
-const index = (req,res) => {
+export const index = (req,res) => {
 	const id = req.params.id
-	models.Member.findAll({attributes:['id','lastName']}).then(result => {
+	Member.findAll({attributes:['id','lastName']}).then(result => {
 		res.status(200).json(result)
 	}).catch(error => {
 		res.status(500).json({
@@ -103,7 +101,7 @@ const index = (req,res) => {
 	})
 }
 
-const update = (req, res) => {
+export const update = (req, res) => {
 	const id = req.params.id	
 	const updatedMember = { 
 		name: req.body.name,
@@ -125,7 +123,7 @@ const update = (req, res) => {
 	const validationRes = v.validate(updatedMember, schema)
 	if (validationRes !== true) {return res.status(400).json({message:'Validation Failed'})}
 	else {
-		models.Member.update(updatedMember, {where:{id:id}}).then(result => {
+		Member.update(updatedMember, {where:{id:id}}).then(result => {
 			res.status(200).json({
 				message:'Un membre a été mis à jour avec succès',
 				member: result
@@ -140,10 +138,10 @@ const update = (req, res) => {
 }
 
 
-const destroy = (req,res) => {
+export const destroy = (req,res) => {
 	console.log('sent')
 	const id = req.params.id
-	models.Member.destroy({where:{id:[id]}}).then(result => {
+	Member.destroy({where:{id:[id]}}).then(result => {
 		res.status(200).json({
 			message: "Un membre a été supprimé avec succès",
 		})
@@ -153,14 +151,4 @@ const destroy = (req,res) => {
 			error: error
 		})
 	})
-}
-
-
-module.exports = {
-	save:save,
-	show:show,
-	showAll:showAll,
-	index:index,
-	update:update,
-	destroy:destroy
 }

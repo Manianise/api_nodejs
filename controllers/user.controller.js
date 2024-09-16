@@ -1,21 +1,24 @@
-const models = require('../models')
-const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const Validator = require('fastest-validator')
-require('dotenv').config();
+import Validator from 'fastest-validator'
+import { sequelize } from '../config/config.js';
+import User from '../models/User.js'
+import bpkg from 'bcryptjs';
+const { hash, genSalt, compare } = bpkg;
+import jpkg from 'jsonwebtoken';
+const { sign } = jpkg;
+import 'dotenv/config'
  
 
-const signUp = async (req, res) => {
+export const signUp = async (req, res) => {
 
-        await models.User.findOne({where:{email:req.body.email}}).then(result => {
+        await User.findOne({where:{email:req.body.email}}).then(result => {
 
                 if(result) res.status(409).send('email already exists')
 
                 else {
 
-                    bcryptjs.genSalt(10, (err, salt) => {
+                    genSalt(10, (err, salt) => {
 
-                            bcryptjs.hash(req.body.password, salt, (err, hash) => {
+                            hash(req.body.password, salt, (err, hash) => {
 
 					const user = {
                                             name: req.body.name,
@@ -32,7 +35,7 @@ const signUp = async (req, res) => {
 					const validationRes = v.validate(user, schema)
 					if (validationRes !== true) {return res.status(400).json({message:'Validation failed : password must be at least 8 characters long'})}
 					else {
-					    models.User.create(user).then(result => {
+					    User.create(user).then(result => {
 						    res.status(201).send('Created successfully')
 					    }).catch(error => {
 						   res.status(500).send(`ERROR creating User : ${error}`)
@@ -45,14 +48,14 @@ const signUp = async (req, res) => {
 }
 
 
-const login = async (req, res) => {
-        await models.User.findOne({where:{email:req.body.email,name:req.body.name}}).then(user => {
+export const login = async (req, res) => {
+        await User.findOne({where:{email:req.body.email,name:req.body.name}}).then(user => {
                 console.log(user);
                 if(user === null)  res.status(401).send(`ERROR User : Invalid credentials`)
                 else {
-                        bcryptjs.compare(req.body.password, user.password, (err, result) => {
+                        compare(req.body.password, user.password, (err, result) => {
                             if(result) {
-                                const token = jwt.sign({
+                                const token = sign({
                                     email: user.email,
                                     id: user.id
                                     }, process.env.JWT_KEY, (err, token) => res.status(200).json({
@@ -64,9 +67,4 @@ const login = async (req, res) => {
                                 
                 }
         }).catch(err => res.status(500).send(`ERROR logging User : ${err}`))
-}        
-
-module.exports = {
-        signUp: signUp,
-	login: login
 }

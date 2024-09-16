@@ -1,12 +1,13 @@
-const jwl = require('jsonwebtoken')
-require('dotenv').config();
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+import 'dotenv/config'
 
-const checkAuth = (req, res, next) => {
+export const checkAuth = (req, res, next) => {
 
         try {
                 // Get authentication token and split from Bearer
                 const token = req.headers.authorization.split(" ")[1]
-                const decodedToken = jwl.verify(token, process.env.JWT_KEY)
+                const decodedToken = verify(token, process.env.JWT_KEY)
 		req.userData = decodedToken
 next()
         }catch(err) {
@@ -15,8 +16,4 @@ next()
                         'error': err
                 })
         }
-}
-
-module.exports = {
-        checkAuth: checkAuth
 }

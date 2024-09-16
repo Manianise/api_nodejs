@@ -1,16 +1,16 @@
-const express = require('express')
-console.log(__dirname);
-const membersController = require('../controllers/member.controller')
+import express from "express";
+import * as membersController from '../controllers/member.controller.js'
+import { checkAuth } from '../middleware/check-auth.js'
 
-const checkAuthMiddleware = require('../middleware/check-auth')
+export const membersRoute = () => {
+    const router = express.Router()
 
-const router = express.Router()
+    router.save = router.post("/",checkAuth, membersController.save)
+    router.showAll = router.get("/all", checkAuth, membersController.showAll)
+    router.show = router.get("/:id", checkAuth, membersController.show)
+    router.index = router.get("/", checkAuth, membersController.index)
+    router.update = router.patch("/:id", checkAuth, membersController.update)
+    router.destroy = router.delete("/:id", checkAuth, membersController.destroy)
 
-router.post("/", checkAuthMiddleware.checkAuth, membersController.save)
-router.get("/all", checkAuthMiddleware.checkAuth, membersController.showAll)
-router.get("/:id", checkAuthMiddleware.checkAuth, membersController.show)
-router.get("/", checkAuthMiddleware.checkAuth, membersController.index)
-router.patch("/:id", checkAuthMiddleware.checkAuth, membersController.update)
-router.delete("/:id", checkAuthMiddleware.checkAuth, membersController.destroy)
-
-module.exports = router
+    return router
+} 

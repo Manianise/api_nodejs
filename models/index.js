@@ -1,43 +1,35 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
+import { promises as fs } from 'fs';
+import path from "path";
+import { sequelize } from '../config/config.js';
+const __filename = import.meta.filename
+const __dirname = import.meta.dirname
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+/**
+ * @async synchronizes models in current directory with external database
+ */
+export async function loadModels() {
+    const files = await fs.readdir(__dirname);
+
+    for (const file of files) {
+
+        if (path.extname(file) === '.js' && file.slice(file, -3) !== 'index') {
+            let model = file.slice(file, -3)
+            try {
+                await import(`./${file}`)
+                .then(instance => {
+                    instance.default.sync();
+                    console.log(`${model} was successfully created`);
+               })
+            } catch (error) {
+                console.log(`Something went wrong : ${error}`);
+                
+            }
+            
+        }
+
+    }    
+
 }
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;

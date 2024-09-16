@@ -1,11 +1,14 @@
-const express = require('express')
-const userController = require('../controllers/user.controller')
-const userAuthToken = require('../middleware/check-auth')
-const router = express.Router()
+import express from "express";
+import * as userController from '../controllers/user.controller.js'
 
-router.post('/sign-up', userController.signUp)
-router.post('/login', userController.login)
+export const usersRoute = () => {
+    const router = express.Router()
 
-module.exports = router
+    router.signUp = router.post('/sign-up', userController.signUp)
+    router.login = router.post('/login', userController.login)
+    
+    return router
+}
+
 
 

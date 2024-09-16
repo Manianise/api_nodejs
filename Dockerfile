@@ -14,11 +14,7 @@ RUN npm install --production
 COPY . .
 
 # Expose the port your app runs on
-EXPOSE 3000
-
-# Command to migrate to a database
-RUN node config.js \
-sequelize db:migrate
+EXPOSE 5134
 
 # Command to run the application
 CMD ["npm", "run", "start"]

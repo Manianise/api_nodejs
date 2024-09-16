@@ -1,15 +1,16 @@
 // Main requirements
-const express = require('express')
-const cors = require('cors')
+import express from "express";
+import cors from "cors";
+import { rateLimit } from "express-rate-limit";
+import { loadModels } from './models/index.js'
+import 'dotenv/config'
 const app = express()
-const port = 3000
-const bodyParser = require('body-parser')
-const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+const __dirname = import.meta.dirname
 
 // Routing
-const membersRoute = require('./routes/members')
-const usersRoute = require('./routes/user')
+
+import { membersRoute }   from './routes/members.js'
+import { usersRoute }    from './routes/user.js'
 
 // Define rate limiting configuration
 const limiter = rateLimit({
@@ -32,10 +33,31 @@ app.use(cors(corsOptions))
 // Documentation static html page
 app.use(express.static(__dirname + '/src'))
 
-app.use(bodyParser.json())
+// All requests to json
+app.use(express.json())
 
-app.use("/members", membersRoute)
-app.use("/user", usersRoute)
+          app.use('/members', membersRoute())
+          app.use('/user', usersRoute())
 
 
-app.listen(port, () => {console.log(`listening on port : ${port} at http://localhost:3000`)})
+// Function to check the database connection
+async function checkDatabaseConnection() {
+  try {
+    await import('./config/config.js')
+        .then(sequelize => {
+          sequelize.sequelize.authenticate()
+          console.log(`Connexion to datbase established ! `);
+          loadModels()
+        })
+
+    } catch (error) {
+    console.error('Unable to connect to the database:', error.message);
+    process.exit(1);
+  }
+}
+
+checkDatabaseConnection().then(() => {
+  app.listen(process.env.PORT, () => {
+    console.log(`Server is running on http://localhost:${process.env.PORT}`);
+  });
+});
