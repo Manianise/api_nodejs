@@ -32,7 +32,7 @@ docker pull mechameleon/api_nodejs:latest
 ```
 
 ```
-docker run --env-file <ENV_FILE_IN_DIR> --name <CONTAINER> --network <CUSTOM_NETWORK> -dp 5134:5134 mechameleon/api_nodejs:latest
+docker run --name <CONTAINER> -e <MARIA_DB_CONTAINER_IP> --network <CUSTOM_NETWORK> -dp 5134:5134 mechameleon/api_nodejs:latest
 ```
 
 
