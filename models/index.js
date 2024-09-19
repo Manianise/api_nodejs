@@ -5,7 +5,6 @@ import path from "path";
 import { sequelize } from '../config/config.js';
 const __filename = import.meta.filename
 const __dirname = import.meta.dirname
-const basename = path.basename(__filename);
 
 /**
  * @async synchronizes models in current directory with external database
