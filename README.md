@@ -25,7 +25,7 @@ npm run start
 
 ### Using Docker
 
-### You can have a test environment with MySQL installed directly [here](https://github.com/Manianise/api_nodejs_mysql)
+### You can have a test environment with MySQL installed directly [here](https://github.com/Manianise/docker-node-api)
 
 ```
 docker pull mechameleon/api_nodejs:latest

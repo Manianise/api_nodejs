@@ -1,5 +1,4 @@
 import Validator from 'fastest-validator'
-import { sequelize } from '../config/config.js';
 import User from '../models/User.js'
 import bpkg from 'bcryptjs';
 const { hash, genSalt, compare } = bpkg;
