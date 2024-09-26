@@ -1,18 +1,18 @@
 pipeline {
     agent {
-        label 'node_agent'  // Define your agent label here
+        label 'node-agent'  
     }
     
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')  // Docker Hub credentials (username/password)
-        GIT_PRIVATE_KEY = credentials('git-private-key')  // Git SSH private key credentials
-        SONAR_SCANNER_KEY = credentials('sonar-scanner-key')  // SonarQube scanner credentials (token)
-        DOCKERHUB_USERNAME = 'your-docker-hub-username'  // Docker Hub username
-        DOCKER_IMAGE_NAME = 'your-app-image'  // Docker image name
-        MAILTRAP_SMTP_SERVER = 'smtp.mailtrap.io'  // Mailtrap SMTP server
-        MAILTRAP_PORT = '2525'  // Mailtrap SMTP port
-        MAILTRAP_USER = 'your-mailtrap-username'
-        MAILTRAP_PASS = 'your-mailtrap-password'
+        DOCKER_HUB_CREDENTIALS = credentials('jenkins-id	')
+        GIT_PRIVATE_KEY = credentials('ssh-connexion')
+        SONAR_SCANNER_KEY = credentials('sonar-scanner-token')  
+        DOCKERHUB_USERNAME = 'mechameleon'  
+        DOCKER_IMAGE_NAME = 'api_nodejs'  
+        MAILTRAP_SMTP_SERVER = 'sandbox.smtp.mailtrap.io'  
+        MAILTRAP_PORT = '587' 
+        MAILTRAP_USER = '0e63983bdc019a'
+        MAILTRAP_PASS = credentials('mailtrap-pwd')
     }
     
     stages {
@@ -21,7 +21,7 @@ pipeline {
                 script {
                     sshagent(['git-private-key']) {
                         sh '''
-                        git clone git@github.com:your-username/your-repo.git
+                        git clone git@github.com:Manianise/api_nodejs.git
                         cd your-repo
                         '''
                     }
@@ -33,25 +33,30 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    cd your-repo
                     npm install
-                    npm test
                     npm run build
                     '''
                 }
             }
         }
 
+        stage('Testing build') {
+            steps {
+                script {
+                    sh 'npm run test'
+                }
+            }
+        }
+
         stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('SonarQube') {  // Make sure SonarQube is properly configured in Jenkins
+                withSonarQubeEnv('SonarQube') {
                     script {
                         sh '''
-                        cd your-repo
                         sonar-scanner \
-                        -Dsonar.projectKey=your-project-key \
+                        -Dsonar.projectKey=node-api-scan \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=http://your-sonarqube-url \
+                        -Dsonar.host.url=172.18.0.3:9000 \
                         -Dsonar.login=${SONAR_SCANNER_KEY}
                         '''
                     }
@@ -64,17 +69,17 @@ pipeline {
             steps {
                 script {
                     def dockerImage
-                    def newVersion = getVersion()
+                    def latestVersion = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
 
                     // Build Docker image
-                    dockerImage = docker.build("${DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${newVersion}")
+                    dockerImage = docker.build("${DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${latestVersion}")
 
                     // Tag Docker image with 'latest'
                     dockerImage.tag('latest')
 
                     // Push the Docker image to Docker Hub
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        dockerImage.push("${newVersion}")
+                        dockerImage.push("${latestVersion}")
                         dockerImage.push('latest')
                     }
                 }
