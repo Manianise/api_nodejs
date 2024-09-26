@@ -91,7 +91,6 @@ pipeline {
                  from: 'jenkins@example.com'
         }
         failure {
-            
             mail to: 'recipient@example.com',
                  subject: 'Build Failed',
                  body: "The build has failed",
