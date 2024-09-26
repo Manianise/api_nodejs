@@ -88,13 +88,13 @@ pipeline {
             mail to: 'recipient@example.com',
                  subject: 'Build Success',
                  body: "The build was successful",
-                 from: 'jenkins@example.com',
+                 from: 'jenkins@example.com'
         }
         failure {
             mail to: 'recipient@example.com',
                  subject: 'Build Failed',
                  body: "The build has failed",
-                 from: 'jenkins@example.com',
+                 from: 'jenkins@example.com'
         }
     }
 }
