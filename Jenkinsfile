@@ -15,12 +15,10 @@ pipeline {
         stage('Clone Git Repository') {
             steps {
                 script {
-                    sshagent(['git-private-key']) {
                         sh '''
                         git clone git@github.com:Manianise/api_nodejs.git
                         cd your-repo
                         '''
-                    }
                 }
             }
         }
@@ -85,16 +83,10 @@ pipeline {
 
     post {
         success {
-            mail to: 'recipient@example.com',
-                 subject: 'Build Success',
-                 body: "The build was successful",
-                 from: 'jenkins@example.com'
+            echo 'success'
         }
         failure {
-            mail to: 'recipient@example.com',
-                 subject: 'Build Failed',
-                 body: "The build has failed",
-                 from: 'jenkins@example.com'
+            echo 'failure'
         }
     }
 }
