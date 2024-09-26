@@ -8,11 +8,7 @@ pipeline {
         GIT_PRIVATE_KEY = credentials('ssh-connexion')
         SONAR_SCANNER_KEY = credentials('sonar-scanner-token')  
         DOCKERHUB_USERNAME = 'mechameleon'  
-        DOCKER_IMAGE_NAME = 'api_nodejs'  
-        MAILTRAP_SMTP_SERVER = 'sandbox.smtp.mailtrap.io'  
-        MAILTRAP_PORT = '587' 
-        MAILTRAP_USER = '0e63983bdc019a'
-        MAILTRAP_PASS = credentials('mailtrap-pwd')
+        DOCKER_IMAGE_NAME = 'api_nodejs'   
     }
     
     stages {
@@ -93,22 +89,12 @@ pipeline {
                  subject: 'Build Success',
                  body: "The build was successful",
                  from: 'jenkins@example.com',
-                 smtpHost: MAILTRAP_SMTP_SERVER,
-                 smtpPort: MAILTRAP_PORT,
-                 replyTo: 'no-reply@example.com',
-                 username: MAILTRAP_USER,
-                 password: MAILTRAP_PASS
         }
         failure {
             mail to: 'recipient@example.com',
                  subject: 'Build Failed',
                  body: "The build has failed",
                  from: 'jenkins@example.com',
-                 smtpHost: MAILTRAP_SMTP_SERVER,
-                 smtpPort: MAILTRAP_PORT,
-                 replyTo: 'no-reply@example.com',
-                 username: MAILTRAP_USER,
-                 password: MAILTRAP_PASS
         }
     }
 }
