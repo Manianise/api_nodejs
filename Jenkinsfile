@@ -28,7 +28,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    cd api-nodejs
                     npm run build
                     '''
                 }
