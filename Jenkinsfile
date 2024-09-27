@@ -27,8 +27,10 @@ pipeline {
         stage('build') {
             steps {
                 script {
-
-                    sh 'npm run start'
+                    sh '''
+                    cd api-nodejs
+                    npm run build
+                    '''
                 }
             }
         }

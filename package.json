@@ -18,6 +18,7 @@
   "scripts": {
     "start": "nodemon -r dotenv/config app.js",
     "test": "concurrently --kill-others-on-fail --prefix none npm:test:*",
+    "build": "set NODE_ENV=production && node -r dotenv/config app.js",
     "test:units": "node --import ./test/setup.units.js --test src/app/server/connexion.spec.js"
   },
   "devDependencies": {
