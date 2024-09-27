@@ -19,7 +19,7 @@ pipeline {
                     export MARIADB_HOST=172.18.0.10
                     npm install
                     npm run test
-                    npm run build
+                    nohup npm run build > output.log 2>&1 &
                     '''
                 }
             }
