@@ -28,7 +28,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    ls -la
+                    ls -la ./models
+                    ls -la ./controllers
+                    ls -la ./routes
                     npm run build
                     '''
                 }
