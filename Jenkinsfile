@@ -12,21 +12,21 @@ pipeline {
     
     stages {
         
-        stage('Install, Test and Build Node.js App') {
+        stage('Install, Test connexion') {
             steps {
                 script {
                     sh '''
                     npm install
-                    npm run build
+                    npm run test
                     '''
                 }
             }
         }
 
-        stage('Testing build') {
+        stage('build') {
             steps {
                 script {
-                    sh 'npm run test'
+                    sh 'npm run start'
                 }
             }
         }
