@@ -1,11 +1,12 @@
 // Main requirements
+const __dirname = import.meta.dirname
 import express from "express";
 import cors from "cors";
 import { rateLimit } from "express-rate-limit";
 import { loadModels } from './models/index.js'
 import 'dotenv/config'
 const app = express()
-const __dirname = import.meta.dirname
+
 
 // Routing
 

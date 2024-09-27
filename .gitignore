@@ -1,5 +1,4 @@
 node_modules/
-package-lock.json
 unique_commands.txt
 update.sh
 passenger.log
