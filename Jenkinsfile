@@ -17,7 +17,6 @@ pipeline {
                 script {
                     sh '''
                     export MARIADB_HOST=172.18.0.10
-                    ls -la
                     npm install
                     npm run test
                     '''
@@ -29,6 +28,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    ls -la
                     npm run build
                     '''
                 }
