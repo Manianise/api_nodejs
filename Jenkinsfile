@@ -16,6 +16,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    export MARIADB_HOST=172.18.0.10
                     npm install
                     npm run test
                     '''
@@ -26,7 +27,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
-                    
+
                     sh 'npm run start'
                 }
             }
