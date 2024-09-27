@@ -1,5 +1,5 @@
 import Validator from 'fastest-validator'
-import Member from '../models/Member.js'
+import Member from '../models/member.js'
 
 
 /**
