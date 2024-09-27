@@ -83,6 +83,7 @@ pipeline {
 
     post {
         success {
+            
             echo 'success'
         }
         failure {
