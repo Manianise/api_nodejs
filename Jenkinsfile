@@ -10,6 +10,15 @@ pipeline {
         DOCKER_IMAGE_NAME = 'api_nodejs'   
     }
     
+        stage('Install, Test and Build Node.js App') {
+        steps {
+            script {
+                sh '''
+                    git clone https://github.com/Manianise/api_nodejs.git
+                '''
+            }
+        }
+    }
     
     stage('Install, Test and Build Node.js App') {
         steps {
@@ -67,7 +76,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         success {
             echo 'success'
