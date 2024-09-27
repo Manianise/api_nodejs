@@ -1,5 +1,5 @@
 import Validator from 'fastest-validator'
-import User from '../models/User.js'
+import User from '../models/user.js'
 import bpkg from 'bcryptjs';
 const { hash, genSalt, compare } = bpkg;
 import jpkg from 'jsonwebtoken';
