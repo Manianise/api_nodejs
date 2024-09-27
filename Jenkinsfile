@@ -19,20 +19,12 @@ pipeline {
                     export MARIADB_HOST=172.18.0.10
                     npm install
                     npm run test
-                    '''
-                }
-            }
-        }
-
-        stage('build') {
-            steps {
-                script {
-                    sh '''
                     npm run build
                     '''
                 }
             }
         }
+
 
         stage('SonarQube Scan') {
             steps {
