@@ -4,8 +4,7 @@ pipeline {
     }
     
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('jenkins-id	')
-        GIT_PRIVATE_KEY = credentials('ssh-connexion')
+        DOCKER_HUB_CREDENTIALS = credentials('jenkins-id')
         SONAR_SCANNER_KEY = credentials('sonar-scanner-token')  
         DOCKERHUB_USERNAME = 'mechameleon'  
         DOCKER_IMAGE_NAME = 'api_nodejs'   
