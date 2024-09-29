@@ -69,10 +69,10 @@ pipeline {
 
     post {
         failure{
-            mail bcc: '', body: 'Une erreur est survenue', cc: '', from: '', replyTo: '', subject: "Failure : ${PROJECT_NAME} - Build # ${BUILD_ID} - ${BUILD_STATUS}!", to: "${ADMIN_MAIL}"
+            mail bcc: '', body: 'Une erreur est survenue', cc: '', from: 'Jenkins pipelines', replyTo: '', subject: "Failure : ${PROJECT_NAME} - Build # ${BUILD_ID} - ${BUILD_STATUS}!", to: "${ADMIN_MAIL}"
           }
         success{
-            mail bcc: '', body: 'Le build a été créé avec succès', cc: '', from: '', replyTo: '', subject: "Success : ${PROJECT_NAME} - Build # ${BUILD_ID} - ${BUILD_STATUS}!", to: "${ADMIN_MAIL}"
+            mail bcc: '', body: 'Le build a été créé avec succès', cc: '', from: 'Jenkins pipelines', replyTo: '', subject: "Success : ${PROJECT_NAME} - Build # ${BUILD_ID} - ${BUILD_STATUS}!", to: "${ADMIN_MAIL}"
            }
         }
 }
