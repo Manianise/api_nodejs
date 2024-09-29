@@ -5,6 +5,7 @@ pipeline {
     
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('jenkins-id')
+        SONARQUBE_SCANNER = tool name: 'SonarQube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         SONAR_SCANNER_KEY = credentials('sonar-scanner')  
         DOCKERHUB_USERNAME = 'mechameleon'  
         DOCKER_IMAGE_NAME = 'api_nodejs'   
@@ -31,7 +32,7 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     script {
                         sh '''
-                        sonar-scanner \
+                        ${SONARQUBE_SCANNER}/bin/sonar-scanner \
                         -Dsonar.projectKey=node-api-scan \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=172.18.0.3:9000 \
