@@ -10,6 +10,7 @@ pipeline {
         DOCKERHUB_USERNAME = 'mechameleon'  
         DOCKER_IMAGE_NAME = 'api_nodejs'
         ADMIN_MAIL = credentials('admin_mail')
+        LATEST_VERSION = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
     }
     
     stages {
@@ -49,7 +50,6 @@ pipeline {
             steps {
                 script {
                     def dockerImage
-                    def latestVersion = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
 
                     // Build Docker image
                     dockerImage = docker.build("${DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${latestVersion}")
@@ -59,7 +59,7 @@ pipeline {
 
                     // Push the Docker image to Docker Hub
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        dockerImage.push("${latestVersion}")
+                        dockerImage.push("${LATEST_VERSION}")
                         dockerImage.push('latest')
                     }
                 }
@@ -69,10 +69,20 @@ pipeline {
 
     post {
         failure{
-            mail bcc: '', body: 'Une erreur est survenue', cc: '', from: 'Jenkins pipelines ', replyTo: '', subject: "Failure : ${PROJECT_NAME} - Build # ${BUILD_ID} - ${BUILD_STATUS}!", to: "${ADMIN_MAIL}"
+            mail bcc: '', 
+            body: 'Une erreur est survenue', 
+            cc: '', from: 'Jenkins pipelines ', 
+            replyTo: '', 
+            subject: "Failure to build : ${DOCKER_IMAGE_NAME} - Build # ${LATEST_VERSION} !", 
+            to: "${ADMIN_MAIL}"
           }
         success{
-            mail bcc: '', body: 'Le build a été créé avec succès', cc: '', from: 'Jenkins pipelines', replyTo: '', subject: "Success : ${PROJECT_NAME} - Build # ${BUILD_ID} - ${BUILD_STATUS}!", to: "${ADMIN_MAIL}"
+            mail bcc: '', 
+            body: 'Le build a été créé avec succès', cc: '', 
+            from: 'Jenkins pipelines', 
+            replyTo: '', 
+            subject: "Successefully pushed : ${DOCKER_IMAGE_NAME} - Build # ${LATEST_VERSION} !", 
+            to: "${ADMIN_MAIL}"
            }
         }
 }
