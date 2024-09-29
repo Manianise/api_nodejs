@@ -35,7 +35,7 @@ pipeline {
                         ${SONARQUBE_SCANNER}/bin/sonar-scanner \
                         -Dsonar.projectKey=node-api-scan \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=172.18.0.3:9000 \
+                        -Dsonar.host.url=http://172.18.0.3:9000 \
                         -Dsonar.login=${SONAR_SCANNER_KEY}
                         '''
                     }
