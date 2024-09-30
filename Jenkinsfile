@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    export MARIADB_HOST=172.18.0.10
+                    export MARIADB_HOST=172.18.0.2
                     npm install
                     npm run test
                     nohup npm run build > output.log 2>&1 &
@@ -64,7 +64,7 @@ pipeline {
     post {
         failure{
             mail bcc: '', 
-            body: 'Une erreur est survenue', 
+            body: 'Une erreur est survenue : Erreur dans le build', 
             cc: '', from: 'Jenkins pipelines ', 
             replyTo: '', 
             subject: "Failure to build : ${DOCKER_IMAGE_NAME} - Build # ${LATEST_VERSION} !", 
