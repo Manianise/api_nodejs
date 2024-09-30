@@ -46,7 +46,6 @@ pipeline {
         }
 
         stage('Build and Push Docker Image') {
-            when { tag "release-*" }
             steps {
                 script {
 
