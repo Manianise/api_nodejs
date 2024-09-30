@@ -49,19 +49,13 @@ pipeline {
             when { tag "release-*" }
             steps {
                 script {
-                    def dockerImage
 
-                    // Build Docker image
-                    dockerImage = docker.build("${DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${latestVersion}")
+                    sh '''
+                    docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKER_HUB_CREDENTIALS}
+                    docker build . -t {DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${LATEST_VERSION}
+                    docker push {DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${LATEST_VERSION}
+                    '''
 
-                    // Tag Docker image with 'latest'
-                    dockerImage.tag('latest')
-
-                    // Push the Docker image to Docker Hub
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        dockerImage.push("${LATEST_VERSION}")
-                        dockerImage.push('latest')
-                    }
                 }
             }
         }
