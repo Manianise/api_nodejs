@@ -10,7 +10,7 @@ pipeline {
         DOCKERHUB_USERNAME = 'mechameleon'  
         DOCKER_IMAGE_NAME = 'api_nodejs'
         ADMIN_MAIL = credentials('admin_mail')
-        LATEST_VERSION = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+        LATEST_VERSION = sh(returnStdout: true, script: "git tag --sort version:refname |  sed 's/^v//' | tail -1").trim()
     }
     
     stages {

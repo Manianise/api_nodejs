@@ -7,16 +7,24 @@ import { loadModels } from './models/index.js'
 import 'dotenv/config'
 const app = express()
 
-
 // Routing
 
 import { membersRoute }   from './routes/members.js'
 import { usersRoute }    from './routes/user.js'
+import { metricsRoute } from './routes/metrics.js'
+
+// Metrics
+
+import { countHttpRequests, observehttpRequestDurationMicroseconds } from "./middleware/count-http-reqs.js";
+import { httpRequestCounter } from "./controllers/metrics.controller.js";
+app.use(countHttpRequests)
+app.use(observehttpRequestDurationMicroseconds)
+setInterval(() => httpRequestCounter.reset(), 60 * 1000)
 
 // Define rate limiting configuration
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // an hour
-  max: 200, // limit each IP to 100 requests per windowMs
+  max: 200, // limit each IP to 200 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
 });
 
@@ -37,8 +45,9 @@ app.use(express.static(__dirname + '/src'))
 // All requests to json
 app.use(express.json())
 
-          app.use('/members', membersRoute())
-          app.use('/user', usersRoute())
+app.use('/members', membersRoute())
+app.use('/user', usersRoute())
+app.use('/metrics', metricsRoute())
 
 
 // Function to check the database connection

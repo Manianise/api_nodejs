@@ -2,8 +2,6 @@
 
 import { promises as fs } from 'fs';
 import path from "path";
-import { sequelize } from '../config/config.js';
-const __filename = import.meta.filename
 const __dirname = import.meta.dirname
 
 /**
@@ -20,7 +18,7 @@ export async function loadModels() {
                 await import(`./${file}`)
                 .then(instance => {
                     instance.default.sync();
-                    console.log(`${model} was successfully created`);
+                    console.log(`${model} was successfully created or updated`);
                })
             } catch (error) {
                 console.log(`Something went wrong : ${error}`);
