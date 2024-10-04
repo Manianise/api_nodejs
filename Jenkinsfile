@@ -14,7 +14,7 @@ pipeline {
     }
     
     stages {
-        
+
         stage('Install, Test connexion') {
             steps {
                 script {
