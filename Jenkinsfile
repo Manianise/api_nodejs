@@ -51,8 +51,8 @@ pipeline {
 
                     sh '''
                     docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKER_HUB_CREDENTIALS}
-                    docker build . -t {DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${LATEST_VERSION}
-                    docker push {DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${LATEST_VERSION}
+                    docker build . -t ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${LATEST_VERSION}
+                    docker push ${DOCKERHUB_USERNAME}/${DOCKER_IMAGE_NAME}:${LATEST_VERSION}
                     '''
 
                 }
